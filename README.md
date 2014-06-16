@@ -2,6 +2,7 @@ test-runner.vim
 ===============
 
 `<Leader>r` Runs the innermost test where the cursor is.
+
 `<Leader>R` Runs all the tests in the file.
 
 ## Features
