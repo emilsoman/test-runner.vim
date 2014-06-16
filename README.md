@@ -1,14 +1,14 @@
 test-runner.vim
 ===============
 
-`<Leader>r` Runs the innermost test where the cursor is.
-
-`<Leader>R` Runs all the tests in the file.
-
 ## Features
 
-* test-runner.vim will use zeus if zeus is running.
+* Uses zeus to run tests ( if zeus is running ).
 * Works with RSpec and Cucumber.
+* Comes with the following shortcuts :
+  * `<Leader>r` Runs the innermost test wrt cursor position.
+  * `<Leader>R` Runs all the tests in the file.
+
 
 
 ## Installation
