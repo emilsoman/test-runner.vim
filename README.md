@@ -4,6 +4,7 @@ test-runner.vim
 ## Features
 
 * Uses zeus to run tests ( if zeus is running ).
+* Works with binstubs if you're using [spring](https://github.com/rails/spring)
 * Works with RSpec and Cucumber.
 * Comes with the following shortcuts :
   * `<Leader>r` Runs the innermost test wrt cursor position.
