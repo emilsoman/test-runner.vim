@@ -20,9 +20,20 @@ endfunction
 
 function! s:SetTestCommand()
   if !exists("g:test_runner_command")
-    let has_zeus = !empty(glob(".zeus.sock"))
-    let runner = has_zeus ? "zeus " : "bundle exec "
     call s:SetFileType()
+
+    let has_zeus = !empty(glob(".zeus.sock"))
+    let binstub_command = "bin/" . s:test_type
+    let has_binstub = !empty(glob(binstub_command))
+
+    let runner = "bundle exec " "Default runner
+
+    if has_zeus
+      let runner = "zeus " "Run with zeus
+    elseif has_binstub
+      let runner = "bin/" "Run with binstub hoping spring is running
+    endif
+
     let s:test_runner_command = runner . s:test_type
   else
     let s:test_runner_command = g:test_runner_command
