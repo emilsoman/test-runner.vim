@@ -13,7 +13,12 @@ map <unique> <silent> <Leader>r :call TestRunnerRunCurrentTest()<CR>
 
 function! s:SetFileType()
   let s:test_type = &filetype "Default to filetype (eg: cucumber)
-  if getline(1) =~ 'spec_helper'
+
+  call s:DetectRspec()
+endfunction
+
+function s:DetectRspec()
+  if &filetype == "ruby" && expand("%") =~ "spec"
     let s:test_type = 'rspec'
   endif
 endfunction
@@ -42,10 +47,10 @@ endfunction
 
 function! TestRunnerRunAllTests()
   call s:SetTestCommand()
-  execute("!clear && " . s:test_runner_command . " " . expand("%p"))
+  execute("!clear && " . s:test_runner_command . " " . expand("%"))
 endfunction
 
 function! TestRunnerRunCurrentTest()
   call s:SetTestCommand()
-  execute("!clear && " . s:test_runner_command . " " . expand("%p") . ":" . line("."))
+  execute("!clear && " . s:test_runner_command . " " . expand("%") . ":" . line("."))
 endfunction
