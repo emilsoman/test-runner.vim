@@ -1,14 +1,14 @@
 " To make sure plugin is loaded only once,
 " and to allow users to disable the plugin
 " with a global conf.
-if exists("g:do_not_load_test_runner")
+if exists("g:loaded_test_runner")
   finish
 endif
-let g:do_not_load_test_runner = 1
+let g:loaded_test_runner = 1
 
-" Default shortcuts
-map <unique> <silent> <Leader>R :call TestRunnerRunAllTests()<CR>
-map <unique> <silent> <Leader>r :call TestRunnerRunCurrentTest()<CR>
+" Sample shortcuts
+"map <unique> <silent> <Leader>R :call TestRunnerRunAllTests()<CR>
+"map <unique> <silent> <Leader>r :call TestRunnerRunCurrentTest()<CR>
 
 
 function! s:SetFileType()
@@ -45,12 +45,28 @@ function! s:SetTestCommand()
   endif
 endfunction
 
-function! TestRunnerRunAllTests()
+function! s:TestRunnerExecute(command)
+  if(get(g:, 'loaded_vimux', 0) && exists('$TMUX'))
+    call VimuxRunCommand(a:command)
+  else
+    execute("!" . a:command)
+  endif
+endfunction
+
+function! TestRunnerGetRunAllTestsCommand()
   call s:SetTestCommand()
-  execute("!clear && " . s:test_runner_command . " " . expand("%"))
+  return "clear && " . s:test_runner_command . " " . expand("%")
+endfunction
+
+function! TestRunnerGetRunCurrentTestCommand()
+  call s:SetTestCommand()
+  return "clear && " . s:test_runner_command . " " . expand("%") . ":" . line(".")
+endfunction
+
+function! TestRunnerRunAllTests()
+  call s:TestRunnerExecute(TestRunnerGetRunAllTestsCommand())
 endfunction
 
 function! TestRunnerRunCurrentTest()
-  call s:SetTestCommand()
-  execute("!clear && " . s:test_runner_command . " " . expand("%") . ":" . line("."))
+  call s:TestRunnerExecute(TestRunnerGetRunCurrentTestCommand())
 endfunction
