@@ -34,6 +34,9 @@ function! s:SetTestCommand()
     let runner = "bundle exec " "Default runner
 
     if has_zeus
+      if (expand('%') =~ 'test_') || (expand('%') =~ '_test')
+        let s:test_type = 'test'
+      endif
       let runner = "zeus " "Run with zeus
     elseif has_binstub
       let runner = "bin/" "Run with binstub hoping spring is running
